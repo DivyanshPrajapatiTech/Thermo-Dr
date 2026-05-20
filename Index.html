@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>THERMO-DR</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#050505;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND */
+
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    overflow:hidden;
+}
+
+.glow{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.35;
+}
+
+.glow1{
+    width:600px;
+    height:600px;
+    background:#ffffff;
+    top:-200px;
+    right:-150px;
+}
+
+.glow2{
+    width:500px;
+    height:500px;
+    background:#1d1d1d;
+    bottom:-150px;
+    left:-100px;
+}
+
+.grid{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size:60px 60px;
+    mask-image:linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+
+/* NAVBAR */
+
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:999;
+    padding:24px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo img{
+    border-radius: 90px;
+    width:52px;
+    height:60px;
+    object-fit:contain;
+    filter:
+    drop-shadow(0 0 15px rgba(255,255,255,0.22));
+}
+
+.logo h2{
+    font-size:1rem;
+    letter-spacing:6px;
+    font-weight:700;
+}
+
+nav ul{
+    display:flex;
+    gap:35px;
+    list-style:none;
+}
+
+nav ul li a{
+    text-decoration:none;
+    color:rgba(255,255,255,0.75);
+    transition:.3s;
+    font-size:.95rem;
+}
+
+nav ul li a:hover{
+    color:white;
+}
+
+/* HERO */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:140px 7% 60px;
+    position:relative;
+}
+
+.left{
+    width:50%;
+}
+
+.tag{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 20px;
+    border-radius:999px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    margin-bottom:28px;
+    backdrop-filter:blur(12px);
+}
+
+.tag span{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:white;
+    box-shadow:0 0 14px white;
+}
+
+.left h1{
+    font-size:6rem;
+    line-height:.92;
+    font-weight:900;
+    margin-bottom:28px;
+}
+
+.left p{
+    max-width:650px;
+    color:rgba(255,255,255,0.7);
+    line-height:1.9;
+    font-size:1.05rem;
+}
+
+.buttons{
+    display:flex;
+    gap:18px;
+    margin-top:42px;
+}
+
+.btn{
+    padding:16px 28px;
+    border-radius:18px;
+    font-weight:600;
+    text-decoration:none;
+    transition:.35s;
+}
+
+.btn-primary{
+    background:white;
+    color:black;
+}
+
+.btn-primary:hover{
+    transform:translateY(-6px) scale(1.03);
+    box-shadow:0 15px 40px rgba(255,255,255,0.25);
+}
+
+.btn-secondary{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    color:white;
+    backdrop-filter:blur(12px);
+}
+
+.btn-secondary:hover{
+    transform:translateY(-6px);
+    background:rgba(255,255,255,0.08);
+}
+
+/* RIGHT */
+
+.right{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    min-height:700px;
+}
+
+/* BOTTLE */
+
+.circle-glow{
+    position:absolute;
+    width:620px;
+    height:620px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,0.12), transparent 65%);
+    filter:blur(20px);
+    animation:pulse 5s ease-in-out infinite;
+}
+
+.bottle-wrap{
+    position:relative;
+    width: 1400px;
+    transition:.45s ease;
+    animation:float 5s ease-in-out infinite;
+    transform-style:preserve-3d;
+    z-index:5;
+}
+
+.bottle-wrap:hover{
+    transform:
+    translateY(-22px)
+    rotate(-60deg)
+    scale(1.05);
+}
+
+.bottle-wrap img{
+    width:100%;
+    object-fit:contain;
+
+    filter:
+    drop-shadow(0 55px 90px rgba(0,0,0,0.95));
+
+    transition:.45s;
+}
+
+.bottle-wrap:hover img{
+    filter:
+    drop-shadow(0 70px 110px rgba(255,255,255,0.12));
+}
+/* FLOATING CARDS */
+
+.card{
+    position:absolute;
+    padding:18px 24px;
+    border-radius:24px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.45);
+}
+
+.card h3{
+    font-size:1.2rem;
+    margin-bottom:6px;
+}
+
+.card p{
+    color:rgba(255,255,255,0.65);
+    font-size:.9rem;
+}
+
+.card1{
+    top:15%;
+    left:-8%;
+    animation:floatCard 5s infinite ease-in-out;
+}
+
+.card2{
+    bottom:10%;
+    right:-10%;
+    animation:floatCard 6s infinite ease-in-out;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+    padding:40px 7% 100px;
+}
+
+.stat{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:30px;
+    padding:35px;
+    transition:.35s;
+    position:relative;
+    overflow:hidden;
+}
+
+.stat:hover{
+    transform:translateY(-10px);
+    background:rgba(255,255,255,0.07);
+}
+
+.stat::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(130deg, rgba(255,255,255,0.08), transparent);
+    opacity:0;
+    transition:.4s;
+}
+
+.stat:hover::before{
+    opacity:1;
+}
+
+.stat h2{
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+.stat p{
+    color:rgba(255,255,255,0.7);
+    line-height:1.8;
+}
+
+/* SECTION */
+
+.section{
+    padding:120px 7%;
+}
+
+.section-title{
+    font-size:4rem;
+    line-height:1;
+    margin-bottom:30px;
+}
+
+.section-text{
+    color:rgba(255,255,255,0.7);
+    max-width:800px;
+    line-height:2;
+    font-size:1.05rem;
+}
+
+/* FEATURES */
+
+.features{
+    margin-top:70px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+}
+
+.feature{
+    padding:40px;
+    border-radius:30px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    transition:.35s;
+    position:relative;
+    overflow:hidden;
+}
+
+.feature:hover{
+    transform:translateY(-12px) scale(1.02);
+    background:rgba(255,255,255,0.07);
+}
+
+.feature-number{
+    font-size:4rem;
+    font-weight:900;
+    opacity:.08;
+    position:absolute;
+    top:20px;
+    right:24px;
+}
+
+.feature h3{
+    font-size:1.5rem;
+    margin-bottom:16px;
+}
+
+.feature p{
+    color:rgba(255,255,255,0.68);
+    line-height:1.9;
+}
+
+/* FOOTER */
+
+footer{
+    padding:60px 7%;
+    border-top:1px solid rgba(255,255,255,0.08);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+footer p{
+    color:rgba(255,255,255,0.55);
+}
+
+/* SCROLL BAR */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:white;
+    border-radius:20px;
+}
+
+/* ANIMATIONS */
+
+@keyframes float{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-18px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+        opacity:.4;
+    }
+    50%{
+        transform:scale(1.08);
+        opacity:.7;
+    }
+    100%{
+        transform:scale(1);
+        opacity:.4;
+    }
+}
+
+@keyframes floatCard{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+/* REVEAL */
+
+.reveal{
+    opacity:0;
+    transform:translateY(50px);
+    transition:1s;
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .hero{
+        flex-direction:column;
+        text-align:center;
+        gap:80px;
+    }
+
+    .left,.right{
+        width:100%;
+    }
+
+    .buttons{
+        justify-content:center;
+    }
+
+    .left h1{
+        font-size:4.5rem;
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+
+    nav ul{
+        display:none;
+    }
+
+    .left h1{
+        font-size:3.3rem;
+    }
+
+    .bottle-wrap{
+        width:300px;
+    }
+
+    .card{
+        display:none;
+    }
+
+    .section-title{
+        font-size:2.6rem;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg">
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
+    <div class="grid"></div>
+</div>
+
+<!-- NAV -->
+
+<nav>
+
+    <div class="logo">
+        <h2>THERMO-DR</h2>
+    </div>
+
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="left reveal">
+
+        <div class="tag">
+            <span></span>
+            Precision Thermal Hydration
+        </div>
+
+        <h1>
+            THE FUTURE<br>
+            OF BOTTLES
+        </h1>
+
+        <p>
+            THERMO-DR combines premium thermal engineering with minimalist luxury. 
+            Crafted for athletes, creators, travelers and modern professionals, 
+            every bottle is designed to preserve temperature, elevate aesthetics 
+            and redefine everyday hydration.
+        </p>
+
+        <div class="buttons">
+            <a href="#" class="btn btn-primary">Explore Collection</a>
+            <a href="#about" class="btn btn-secondary">Discover More</a>
+        </div>
+
+    </div>
+
+    <div class="right reveal">
+
+        <div class="circle-glow"></div>
+
+    </div>
+
+    <div class="bottle-wrap">
+
+    <img src="Bottle.png" alt="THERMO-DR Bottle">
+
+</div>
+</section>
+
+<!-- STATS -->
+
+<section class="stats">
+
+    <div class="stat reveal">
+        <h2>01</h2>
+        <p>
+            Aerospace-grade insulation technology keeps your drink cold or hot for extended durations.
+        </p>
+    </div>
+
+    <div class="stat reveal">
+        <h2>02</h2>
+        <p>
+            Ergonomic grip architecture engineered for comfort, portability and performance.
+        </p>
+    </div>
+
+    <div class="stat reveal">
+        <h2>03</h2>
+        <p>
+            Ultra-premium matte finish with a luxury minimalist visual identity.
+        </p>
+    </div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section class="section" id="about">
+
+    <div class="reveal">
+        <h1 class="section-title">
+            ENGINEERED<br>
+            FOR PERFORMANCE
+        </h1>
+
+        <p class="section-text">
+            Every THERMO-DR bottle is precision-crafted with a focus on thermal efficiency, durability and elevated design language. 
+            Inspired by modern luxury products and performance-focused hydration systems, the bottle merges futuristic aesthetics 
+            with practical everyday utility. The iconic Dr. symbol represents precision hydration technology built for the next generation.
+        </p>
+    </div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="section" id="features">
+
+    <div class="reveal">
+        <h1 class="section-title">
+            PREMIUM<br>
+            FEATURES
+        </h1>
+    </div>
+
+    <div class="features">
+
+        <div class="feature reveal">
+            <div class="feature-number">01</div>
+            <h3>Thermal Lock</h3>
+            <p>
+                Double-wall vacuum insulation technology preserves temperature with maximum efficiency.  24H Hot/Cold
+            </p>
+        </div>
+
+        <div class="feature reveal">
+            <div class="feature-number">02</div>
+            <h3>Luxury Matte Body</h3>
+            <p>
+                Sleek premium black coating designed for both aesthetics and superior grip.
+            </p>
+        </div>
+
+        <div class="feature reveal">
+            <div class="feature-number">03</div>
+            <h3>Precision Cap</h3>
+            <p>
+                Leak-proof engineering with reinforced rotational locking system for reliability.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section class="section" id="contact">
+
+    <div class="reveal">
+
+        <h1 class="section-title">
+            CONTACT<br>
+            THERMO-DR
+        </h1>
+
+        <p class="section-text" style="margin-bottom:50px;">
+            Connect with THERMO-DR for collaborations, product inquiries, partnerships and premium hydration experiences.
+        </p>
+
+    </div>
+
+    <div class="features">
+
+        <!-- EMAIL -->
+
+        <div class="feature reveal">
+
+            <div class="feature-number">01</div>
+
+            <h3>Email</h3>
+
+            <p style="margin-top:18px;">
+                thermodrofficial@gmail.com
+            </p>
+
+        </div>
+
+        <!-- INSTAGRAM -->
+
+        <div class="feature reveal">
+
+            <div class="feature-number">02</div>
+
+            <h3>Instagram</h3>
+
+            <p style="margin-top:18px;">
+                @ThermoDrOfficial
+            </p>
+
+        </div>
+
+        <!-- PHONE -->
+
+        <div class="feature reveal">
+
+            <div class="feature-number">03</div>
+
+            <h3>Phone</h3>
+
+            <p style="margin-top:18px;">
+                +91 90090 76872<br>
+                +91 95599 65117
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="logo">
+        <h2>THERMO-DR</h2>
+    </div>
+
+    <p>
+        Precision hydration engineered for the future.
+    </p>
+
+</footer>
+
+<script>
+
+/* REVEAL ON SCROLL */
+
+const reveals = document.querySelectorAll('.reveal');
+
+window.addEventListener('scroll', ()=>{
+
+    reveals.forEach((el)=>{
+
+        const top = el.getBoundingClientRect().top;
+
+        if(top < window.innerHeight - 100){
+            el.classList.add('active');
+        }
+
+    });
+
+});
+
+/* 3D MOUSE EFFECT */
+
+const bottle = document.querySelector('.bottle-wrap');
+
+document.addEventListener('mousemove', (e)=>{
+
+    let x = (window.innerWidth / 2 - e.pageX) / 40;
+    let y = (window.innerHeight / 2 - e.pageY) / 40;
+
+    bottle.style.transform =
+    `
+    rotateY(${x}deg)
+    rotateX(${-y}deg)
+    translateY(-10px)
+    `;
+});
+
+document.addEventListener('mouseleave', ()=>{
+
+    bottle.style.transform =
+    `
+    rotateY(0deg)
+    rotateX(0deg)
+    translateY(0px)
+    `;
+});
+
+</script>
+
+</body>
+</html>
